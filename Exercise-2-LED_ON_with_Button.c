@@ -13,19 +13,46 @@
 
 #include <xc.h>
 #define _XTAL_FREQ 6000000
+#define BUTTON PORTBbits.RB0
+#define LED PORTD
 
 void main(void) {
-    TRISB = 0x01;
     TRISD = 0x00;
+    TRISB = 0x01;
+    LED = 0x00;
+    int count = 0;
     while(1)
     {
-	    if (PORTBbits.RB0 == 0)
+	    if (BUTTON == 0)
         {
-            PORTD = 0x01;
-        }
-        else
-        {
-            PORTD = 0x00;
+            __delay_ms(300); // Debounce delay
+            
+            if(count > 8) 
+                count = 0;  // To reset the count to because we have 8 LEDs
+            
+            switch(count)
+            {
+                case 0:
+                    LED = 0x01; break;
+                case 1:
+                    LED = 0x03; break;
+                case 2:
+                    LED = 0x07; break;
+                case 3:
+                    LED = 0x0F; break;
+                case 4:
+                    LED = 0x1F; break;
+                case 5:
+                    LED = 0x3F; break;
+                case 6:
+                    LED = 0x7F; break;
+                case 7:
+                    LED = 0xFF; break;
+                default:
+                    LED = 0x00;
+            }
+            
+            count += 1;
         }
     }
 }
