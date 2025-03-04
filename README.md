@@ -10,7 +10,7 @@ I am documenting my progress in the Notion app and published my notion page onli
 
 ## 📌 **Setup Instructions**
 
-### ** Software Requirements**
+###  Software Requirements
 - **MPLAB X IDE** – [Download Here](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide)
 - **XC8 Compiler** – [Download Here](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers)
 - **PICSimLab** (For Simulation) – [Download Here](https://sourceforge.net/projects/picsimlab/)
