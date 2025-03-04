@@ -23,7 +23,7 @@ void main(void) {
     int count = 0;
     while(1)
     {
-	    if (BUTTON == 0)
+	if (BUTTON == 0)
         {
             __delay_ms(300); // Debounce delay
             
