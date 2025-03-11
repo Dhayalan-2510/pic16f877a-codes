@@ -20,62 +20,28 @@
 
 #include <xc.h>
 #define _XTAL_FREQ 6000000
-#define BUTTON_1 PORTBbits.RB0
-#define BUTTON_2 PORTBbits.RB1
-#define LED PORTD
+#define LED PORTDbits.RD0
 
-void led_on(int *count)
+void __interrupt() ISR(void)
 {
-
-    if(*count > 7) 
-        *count = 0;
-    else if (*count < 0)
-        *count = 7;
-    
-    switch(*count)
-        {
-            case 0:
-                LED = 0x01; break;
-            case 1:
-                LED = 0x03; break;
-            case 2:
-                LED = 0x07; break;
-            case 3:
-                LED = 0x0F; break;
-            case 4:
-                LED = 0x1F; break;
-            case 5:
-                LED = 0x3F; break;
-            case 6:
-                LED = 0x7F; break;
-            case 7:
-                LED = 0xFF; break;
-            default:
-                LED = 0x00;
-        }
+    if (INTCONbits.INTF == 1)  // External Interrupt on RB0
+    {
+        LED = ~LED;
+        INTCONbits.INTF = 0;  // Clear External Interrupt Flag
+    }
 }
 
 void main(void) {
-    TRISD = 0x00;
-    TRISB = 0x03;
-    int count = 0;
-    led_on(&count);
+    INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
+    INTCONbits.INTE = 1;
     
-    while(1)
-    {
-	    if (BUTTON_1 == 0)
-        {
-            __delay_ms(300); // Debounce delay
-            while(BUTTON_1 == 0);
-            count += 1;
-            led_on(&count);
-        }
-        else if (BUTTON_2 == 0)
-        {
-            __delay_ms(300); // Debounce delay
-            while(BUTTON_2 == 0);
-            count -= 1;
-            led_on(&count);
-        }
+    OPTION_REGbits.INTEDG = 1;
+    
+    TRISD = 0x00;
+    PORTD = 0x00;
+    
+    while(1){
+        
     }
 }
