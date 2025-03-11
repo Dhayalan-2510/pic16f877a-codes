@@ -20,27 +20,27 @@
 
 #include <xc.h>
 #define _XTAL_FREQ 6000000
-#define LED PORTDbits.RD0
+#define PROBE PORTDbits.RD0
 
 void __interrupt() ISR(void)
 {
-    if (INTCONbits.INTF == 1)  // External Interrupt on RB0
+    if (INTCONbits.TMR0IF)  // External Interrupt on RB0
     {
-        LED = ~LED;
-        INTCONbits.INTF = 0;  // Clear External Interrupt Flag
+        PROBE = ~PROBE;
+        INTCONbits.TMR0IF = 0;  // Clear External Interrupt Flag
     }
 }
 
 void main(void) {
-    INTCONbits.GIE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.INTE = 1;
-    
-    OPTION_REGbits.INTEDG = 1;
-    
     TRISD = 0x00;
     PORTD = 0x00;
     
+    INTCONbits.GIE = 1;
+    INTCONbits.TMR0IE = 1;
+    
+    OPTION_REG = 0x07;
+    TMR0 = 197;
+
     while(1){
         
     }
