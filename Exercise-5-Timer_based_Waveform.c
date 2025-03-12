@@ -26,6 +26,7 @@ void __interrupt() ISR(void)
 {
     if (INTCONbits.TMR0IF)  // External Interrupt on RB0
     {
+        TMR0 = 244;
         PROBE = ~PROBE;
         INTCONbits.TMR0IF = 0;  // Clear External Interrupt Flag
     }
@@ -39,7 +40,7 @@ void main(void) {
     INTCONbits.TMR0IE = 1;
     
     OPTION_REG = 0x07;
-    TMR0 = 197;
+    TMR0 = 244;
 
     while(1){
         
