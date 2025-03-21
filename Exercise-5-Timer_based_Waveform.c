@@ -21,14 +21,24 @@
 #include <xc.h>
 #define _XTAL_FREQ 6000000
 #define PROBE PORTDbits.RD0
+#define LED PORTDbits.RD2
+#define TIME_PERIOD 10
+
+int count = TIME_PERIOD; //Each overflow 43 ms so 43*10 = 430ms
 
 void __interrupt() ISR(void)
 {
     if (INTCONbits.TMR0IF)  // External Interrupt on RB0
     {
-        TMR0 = 244;
-        PROBE = ~PROBE;
+        count--;
+        TMR0 = 0;
         INTCONbits.TMR0IF = 0;  // Clear External Interrupt Flag
+        if(count == 0)
+        {
+            PROBE = ~PROBE;
+            LED = ~LED;
+            count = TIME_PERIOD;
+        }
     }
 }
 
@@ -40,7 +50,7 @@ void main(void) {
     INTCONbits.TMR0IE = 1;
     
     OPTION_REG = 0x07;
-    TMR0 = 244;
+    TMR0 = 0;
 
     while(1){
         
