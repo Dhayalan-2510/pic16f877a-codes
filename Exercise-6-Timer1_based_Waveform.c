@@ -32,7 +32,7 @@ void __interrupt() ISR(void)
         count++;
         PIR1bits.TMR1IF = 0; // Clear overflow flag
 
-        // 6 overflows ? 500ms
+        // 12 overflows ? 500ms
         if (count >= 12)
         {
             PROBE = ~PROBE;  // Toggle pin
