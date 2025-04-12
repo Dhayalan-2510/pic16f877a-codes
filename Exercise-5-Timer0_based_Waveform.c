@@ -30,12 +30,7 @@ void __interrupt() ISR(void)
 {
     if (INTCONbits.TMR0IF)  // External Interrupt on RB0
     {
-<<<<<<< HEAD:Exercise-5-Timer0_based_Waveform.c
-        PROBE = ~PROBE;
-=======
         count--;
-        TMR0 = 0;
->>>>>>> 932ceed36bc55f19f4010a02fc3b2bc5cb139dd8:Exercise-5-Timer_based_Waveform.c
         INTCONbits.TMR0IF = 0;  // Clear External Interrupt Flag
         if(count == 0)
         {
@@ -54,11 +49,7 @@ void main(void) {
     INTCONbits.TMR0IE = 1;
     
     OPTION_REG = 0x07;
-<<<<<<< HEAD:Exercise-5-Timer0_based_Waveform.c
-    TMR0 = 197;
-=======
     TMR0 = 0;
->>>>>>> 932ceed36bc55f19f4010a02fc3b2bc5cb139dd8:Exercise-5-Timer_based_Waveform.c
 
     while(1){
         
